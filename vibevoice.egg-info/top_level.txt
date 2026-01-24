@@ -1,0 +1,2 @@
+vibevoice
+vllm_plugin
