@@ -7,7 +7,10 @@
 
 **Model:** [VibeVoice-ASR-7B](https://huggingface.co/microsoft/VibeVoice-ASR)<br>
 **Demo:** [VibeVoice-ASR-Demo](https://aka.ms/vibevoice-asr)<br>
-**Finetuning:** [finetune-guide](../finetuning-asr/README.md)
+**Report:** [VibeVoice-ASR-Report](https://arxiv.org/pdf/2601.18184)<br>
+**Finetuning:** [finetune-guide](../finetuning-asr/README.md)<br>
+**vllm:** [vllm-asr](./vibevoice-vllm-asr.md)<br>
+
 
 ## 🔥 Key Features
 
@@ -62,7 +65,8 @@ sudo docker run --privileged --net=host --ipc=host --ulimit memlock=-1:-1 --ulim
 ```bash
 git clone https://github.com/microsoft/VibeVoice.git
 cd VibeVoice
-pip install -e .[asr]
+
+pip install -e .
 ```
 
 ## Usages

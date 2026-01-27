@@ -1,11 +1,12 @@
 """ VibeVoice Streaming model configuration"""
 
+import torch
 from transformers.configuration_utils import PretrainedConfig 
 from transformers.utils import logging
 
 from transformers.models.qwen2.configuration_qwen2 import Qwen2Config
 
-from .configuration_vibevoice import VibeVoiceAcousticTokenizerConfig, VibeVoiceDiffusionHeadConfig
+from .configuration_vibevoice import VibeVoiceAcousticTokenizerConfig, VibeVoiceDiffusionHeadConfig, _convert_dtype_to_string
 
 logger = logging.get_logger(__name__)
 
@@ -79,6 +80,24 @@ class VibeVoiceStreamingConfig(PretrainedConfig):
         self.tts_backbone_num_hidden_layers = tts_backbone_num_hidden_layers
 
         super().__init__(**kwargs)
+
+    def get_text_config(self, decoder=False):
+        """Returns the decoder config (required for transformers >= 4.57 cache compatibility)."""
+        return self.decoder_config
+
+    @property
+    def num_hidden_layers(self):
+        """Proxy to decoder_config.num_hidden_layers (required for transformers >= 4.57)."""
+        return self.decoder_config.num_hidden_layers
+
+    def to_dict(self):
+        """
+        Override to_dict to handle torch.dtype serialization.
+        
+        Fixes: https://github.com/microsoft/VibeVoice/issues/199
+        """
+        output = super().to_dict()
+        return _convert_dtype_to_string(output)
 
 __all__ = [
     "VibeVoiceStreamingConfig"
